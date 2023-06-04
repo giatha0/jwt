@@ -64,7 +64,7 @@ const deleteUser = async (id) => {
         Promise: bluebird
     });
     try {
-        const [rows, fields] = await connection.execute('DELETE FROM users WHERE id = ?', [id]); // delete user with id = 1');
+        const [rows, fields] = await connection.execute('DELETE FROM users WHERE id = ?', [id]);
         console.log('check rows', rows);
         return rows;
     } catch (error) {
@@ -72,6 +72,43 @@ const deleteUser = async (id) => {
     }
 }
 
+const getUserById = async (id) => {
+    const connection = await mysql.createConnection({
+        host: 'localhost',
+        port: '8889',
+        user: 'root',
+        password: 'root',
+        database: 'jwt',
+        Promise: bluebird
+    });
+    try {
+        const [rows, fields] = await connection.execute('SELECT * from users WHERE id = ?', [id]); // i want get user with id from database, plase code here
+        // console.log('check rows', rows);
+        return rows;
+    } catch (error) {
+        console.log('error', error);
+    }
+}
+
+const updateUser = async (id, username, email) => {
+    const connection = await mysql.createConnection({
+        host: 'localhost',
+        port: '8889',
+        user: 'root',
+        password: 'root',
+        database: 'jwt',
+        Promise: bluebird
+    });
+    try {
+        const [rows, fields] = await connection.execute('UPDATE users SET email = ?, username = ? WHERE id = ?', [email, username, id]); // i want update user with id from database, plase code here
+        // console.log('check rows', rows);
+        return rows;
+    } catch (error) {
+        console.log('error', error);
+    }
+}
+
+
 module.exports = {
-    createNewUser, getUserList, deleteUser
+    createNewUser, getUserList, deleteUser, getUserById, updateUser
 }
