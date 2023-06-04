@@ -68,7 +68,12 @@
                                 </td>
                                 <td>
                                     <button class="btn btn-warning">Edit</button>
-                                    <button class="btn btn-danger">Delete</button>
+                                    <form class="d-inline" action="users/delete-user/<%= item.id%>" method="POST">
+                                        <button class="btn btn-danger" type="submit">
+                                            Delete
+                                        </button>
+                                    </form>
+
                                 </td>
 
                             </tr>

@@ -8,6 +8,7 @@ const initWebRoutes = (app) => {
     router.get('/', homeController.handleHelloword);
     router.get('/user', homeController.handleUserPage);
     router.post('/users/create-user', homeController.handleCreateUser)
+    router.post('/users/delete-user/:id', homeController.handleDeleteUser)
     return app.use('/', router);
 }
 
