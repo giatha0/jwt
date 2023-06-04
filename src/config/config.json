@@ -8,8 +8,7 @@
     "port": "8889",
     "define": {
       "freezeTableName": true
-    },
-    "logging": false
+    }
   },
   "test": {
     "username": "root",
