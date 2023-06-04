@@ -21,7 +21,7 @@ const createNewUser = async (email, password, username) => {
     let hashPass = hashUserPassword(password);
     try {
         const [rows, fields] =
-            await connection.execute('INSERT INTO users (email, password, username) VALUES (?, ?, ?)',
+            await connection.execute('INSERT INTO user (email, password, username) VALUES (?, ?, ?)',
                 [email, hashPass, username]);
     } catch (error) {
         console.log('error', error);
@@ -42,7 +42,7 @@ const getUserList = async () => {
         Promise: bluebird
     });
     try {
-        const [rows, fields] = await connection.execute('SELECT * from users ');
+        const [rows, fields] = await connection.execute('SELECT * from user ');
         // console.log('check rows', rows);
         return rows;
     } catch (error) {
@@ -64,7 +64,7 @@ const deleteUser = async (id) => {
         Promise: bluebird
     });
     try {
-        const [rows, fields] = await connection.execute('DELETE FROM users WHERE id = ?', [id]);
+        const [rows, fields] = await connection.execute('DELETE FROM user WHERE id = ?', [id]);
         console.log('check rows', rows);
         return rows;
     } catch (error) {
@@ -82,7 +82,7 @@ const getUserById = async (id) => {
         Promise: bluebird
     });
     try {
-        const [rows, fields] = await connection.execute('SELECT * from users WHERE id = ?', [id]); // i want get user with id from database, plase code here
+        const [rows, fields] = await connection.execute('SELECT * from user WHERE id = ?', [id]); // i want get user with id from database, plase code here
         // console.log('check rows', rows);
         return rows;
     } catch (error) {
@@ -100,7 +100,7 @@ const updateUser = async (id, username, email) => {
         Promise: bluebird
     });
     try {
-        const [rows, fields] = await connection.execute('UPDATE users SET email = ?, username = ? WHERE id = ?', [email, username, id]); // i want update user with id from database, plase code here
+        const [rows, fields] = await connection.execute('UPDATE user SET email = ?, username = ? WHERE id = ?', [email, username, id]); // i want update user with id from database, plase code here
         // console.log('check rows', rows);
         return rows;
     } catch (error) {
