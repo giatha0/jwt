@@ -51,13 +51,23 @@ const handleRegister = async (req, res) => {
 
 const handleLogin = async (req, res) => {
     try {
-        console.log('check req', req.body);
+        // req.body
+
+
+        let data = await loginRegisterService.handleUserLogin(req.body);
+
         return res.status(200).json({
-            message: "Test api success",
-            data: "test api"
+            EM: data.EM,
+            EC: data.EC,
+            DT: data.DT,
         })
     } catch (error) {
-
+        console.log(error);
+        return res.status(500).json({
+            EM: "error from server",
+            EC: "-1",
+            DT: "",
+        })
     }
 }
 
