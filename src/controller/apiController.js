@@ -49,7 +49,19 @@ const handleRegister = async (req, res) => {
 
 }
 
+const handleLogin = async (req, res) => {
+    try {
+        console.log('check req', req.body);
+        return res.status(200).json({
+            message: "Test api success",
+            data: "test api"
+        })
+    } catch (error) {
+
+    }
+}
+
 
 module.exports = {
-    testApi, handleRegister
+    testApi, handleRegister, handleLogin
 }
