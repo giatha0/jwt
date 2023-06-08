@@ -1,4 +1,5 @@
 import db from "../models/models/index.js";
+import { checkEmailExist, checkPhoneExist, hashUserPassword } from "./loginRegisterService.js";
 
 const getAllUser = async () => {
 
@@ -46,6 +47,9 @@ const getUserWithPagination = async (page, limit) => {
                 model: db.Group,
                 attributes: ["name", "description"],
             },
+            order: [
+                ['id', 'DESC'],
+            ],
         });
         let data = {
             totalRows: count,
@@ -71,9 +75,29 @@ const getUserWithPagination = async (page, limit) => {
 
 const createNewUser = async (data) => {
     try {
-        // validate
 
-        await db.User.create(data);
+        // check email/phone number are existed in database
+        let isEmailExist = await checkEmailExist(data.email);
+        if (isEmailExist) {
+            return {
+                EM: "Email is existed",
+                EC: "1",
+                DT: "email",
+            }
+        }
+        let isPhoneExist = await checkPhoneExist(data.phone);
+        if (isPhoneExist) {
+            return {
+                EM: "Phone is existed",
+                EC: "1",
+                DT: "phone",
+            }
+        }
+
+        // hash password
+        let hashPassword = hashUserPassword(data.password);
+
+        await db.User.create({ ...data, password: hashPassword });
         return {
             EM: "Create new user success",
             EC: "0",
