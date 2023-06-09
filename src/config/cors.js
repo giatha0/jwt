@@ -4,6 +4,7 @@ dotenv.config();
 const configCors = (app) => {
     app.use(function (req, res, next) {
 
+        //  process.env.REACT_URL
         // Website you wish to allow to connect
         res.setHeader('Access-Control-Allow-Origin', process.env.REACT_URL);
 

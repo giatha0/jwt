@@ -18,7 +18,7 @@ const initApiRoutes = (app) => {
     // GET-r POST-c PUT-u DELETE-d
     router.get("/user/show", userController.showFunc);
     router.post("/user/create", userController.createFunc);
-    router.put("user/update", userController.updateFunc);
+    router.put("/user/update", userController.updateFunc);
     router.delete("/user/delete", userController.deleteFunc);
 
     router.get("/user/show/page=?&limit=?", userController.showFunc);
