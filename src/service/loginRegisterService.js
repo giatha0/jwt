@@ -1,6 +1,9 @@
 import db from '../models/models/index.js';
 import bcrypt from 'bcryptjs';
 import { Op } from 'sequelize';
+import { getGroupWithRoles } from './JWTService';
+import { createJWT } from '../middleware/JWTAction.js'
+require('dotenv').config();
 
 const salt = bcrypt.genSaltSync(10);
 
@@ -64,6 +67,7 @@ const registerNewUser = async (data) => {
             username: data.username,
             phone: data.phone,
             password: hashPassword,
+            groupId: 4
         })
 
         return {
@@ -94,28 +98,34 @@ const handleUserLogin = async (data) => {
                 ]
             }
         })
-
         if (user) {
-            console.log("Found input user with email/phone")
             let isCorrectPassword = await checkPassword(data.password, user.password);
             if (isCorrectPassword) {
+                let groupWithRoles = await getGroupWithRoles(user);
+                let payload = {
+                    email: user.email,
+                    groupWithRoles,
+                    expiresIn: process.env.JWT_EXPIRES_IN,
+                }
+                let token = await createJWT(payload);
                 return {
                     EM: "Login success",
                     EC: "0",
-                    DT: "",
+                    DT: {
+                        access_token: token,
+                        data: groupWithRoles,
+                    },
                 }
             }
 
         }
-        console.log("Not found input user with email/phone", data.valueLogin, "Password", data.password)
         return {
-            EM: "User is not found",
+            EM: "User or password is incorrect",
             EC: "1",
             DT: "",
         }
-
-
-    } catch (error) {
+    }
+    catch (error) {
         console.log(error);
         return {
             EM: "Error from server",
@@ -123,6 +133,7 @@ const handleUserLogin = async (data) => {
         }
     }
 }
+
 
 module.exports = {
     registerNewUser, handleUserLogin,
