@@ -6,6 +6,8 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import configCors from "./config/cors";
 // import connection from "./config/connectDB";
+import { createJWT, verifyJWT } from "./middleware/JWTAction"
+
 
 dotenv.config();
 const app = express();
@@ -23,6 +25,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // test connection
 // connection();
+
+// test jwt
+createJWT();
+verifyJWT("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiVGhhbyIsImFkZHJlc3MiOiJIYSBOb2kiLCJpYXQiOjE2ODYzOTY2MTB9.OW4TXK79Wx4z0_UX9-vr5gz7bphPzrHFLEOYnW0BW4w");
 
 //init web routes
 initWebRoutes(app);
