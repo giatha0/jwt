@@ -2,6 +2,7 @@ import userApiService from '../service/userApiService.js'
 
 const showFunc = async (req, res) => {
     try {
+        console.log('Cookies: ', req.cookies)
 
         if (req.query.page && req.query.limit) {
             let page = req.query.page;

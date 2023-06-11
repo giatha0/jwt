@@ -29,6 +29,7 @@ const handleRegister = async (req, res) => {
         // service: create user
         let data = await loginRegisterService.registerNewUser(req.body);
 
+
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,
@@ -53,8 +54,10 @@ const handleLogin = async (req, res) => {
     try {
         // req.body
 
-
         let data = await loginRegisterService.handleUserLogin(req.body);
+
+        //set cookie
+        res.cookie("jwt", data.DT.access_token, { httpOnly: true, max: 60 * 60 * 1000 });
 
         return res.status(200).json({
             EM: data.EM,

@@ -12,14 +12,12 @@ const testMiddleware = (req, res, next) => {
 
 const initApiRoutes = (app) => {
 
-
-
     // rest api
     //rest api
 
     router.get("/test-api", apiController.testApi);
     router.post("/register", apiController.handleRegister);
-    router.post("/login", testMiddleware, apiController.handleLogin);
+    router.post("/login", apiController.handleLogin);
 
 
     // GET-r POST-c PUT-u DELETE-d
