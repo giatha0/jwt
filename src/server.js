@@ -1,14 +1,14 @@
+require("dotenv").config();
 import express from "express";
 import configViewEngine from "./config/viewEngine";
 import initWebRoutes from "./routes/web";
 import initApiRoutes from "./routes/api";
-import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import configCors from "./config/cors";
+import cookieParser from "cookie-parser";
 // import connection from "./config/connectDB";
 
 
-dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8080;
 
@@ -21,6 +21,9 @@ configViewEngine(app);
 //config body-parser to post data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// config cookie parser
+app.use(cookieParser());
 
 // test connection
 // connection();
