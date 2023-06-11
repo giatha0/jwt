@@ -5,14 +5,21 @@ import groupController from '../controller/groupController';
 
 const router = express.Router();
 
+const testMiddleware = (req, res, next) => {
+    console.log("test middleware");
+    next();
+}
+
 const initApiRoutes = (app) => {
+
+
 
     // rest api
     //rest api
 
     router.get("/test-api", apiController.testApi);
     router.post("/register", apiController.handleRegister);
-    router.post("/login", apiController.handleLogin);
+    router.post("/login", testMiddleware, apiController.handleLogin);
 
 
     // GET-r POST-c PUT-u DELETE-d

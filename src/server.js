@@ -27,11 +27,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 
-
 //init web routes
 initWebRoutes(app);
 initApiRoutes(app);
 
+
+app.use((req, res) => {
+    return res.send('404 not found  ');
+})
 app.listen(PORT, () => {
     console.log(`Backend Nodejs is running on port ${PORT}`);
 })
