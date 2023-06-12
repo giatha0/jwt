@@ -11,13 +11,13 @@ const initApiRoutes = (app) => {
 
     // rest api
     //rest api
-
+    router.all('*', checkUserJWT, checkUserPermission)
     router.post("/register", apiController.handleRegister);
     router.post("/login", apiController.handleLogin);
 
 
     // GET-r POST-c PUT-u DELETE-d
-    router.get("/user/show", checkUserJWT, checkUserPermission, userController.showFunc);
+    router.get("/user/show", userController.showFunc);
     router.post("/user/create", checkUserPermission, userController.createFunc);
     router.put("/user/update", userController.updateFunc);
     router.delete("/user/delete", userController.deleteFunc);
