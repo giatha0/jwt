@@ -94,6 +94,7 @@ const updateUser = async (id, username, email) => {
 }
 
 
+
 module.exports = {
     createNewUser, getUserList, deleteUser, getUserById, updateUser
 }

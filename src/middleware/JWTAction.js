@@ -39,6 +39,7 @@ const checkUserJWT = (req, res, next) => {
         let decoded = verifyJWT(token);
         if (decoded) {
             req.user = decoded;
+            req.token = token;
             next();
         } else {
             return res.status(401).json({
@@ -59,12 +60,12 @@ const checkUserJWT = (req, res, next) => {
 }
 
 const checkUserPermission = (req, res, next) => {
-    if (nonSecurePath.includes(req.path)) return next();
+    if (nonSecurePath.includes(req.path) || req.path === '/account') return next();
     if (req.user) {
         let email = req.user.email;
         let roles = req.user.groupWithRoles.Roles;
         let currentUrl = req.path;
-        console.log(currentUrl);
+        // console.log(currentUrl);
         if (!roles || roles.length === 0) {
             return res.status(403).json({
                 EC: -1,
@@ -73,10 +74,10 @@ const checkUserPermission = (req, res, next) => {
             })
         }
 
-        console.log(roles);
+        // console.log(roles);
         let canAccess = roles.some(item => item.url === currentUrl)
 
-        console.log(canAccess);
+        // console.log(canAccess);
         if (canAccess) {
             next();
         } else {
