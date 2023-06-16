@@ -8,14 +8,23 @@ const createJWT = (payload) => {
 
     let key = process.env.JWT_SECRET;
     let token = null;
+    let expiresIn = process.env.JWT_EXPIRES_IN;
 
     try {
-        token = jwt.sign(payload, key);
+        token = jwt.sign(payload, key, { expiresIn });
 
     } catch (error) {
         console.log(error);
     }
     return token;
+}
+
+const extractToken = (req) => {
+    if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+        let token = req.headers.authorization.split(' ')[1];
+        return token;
+    }
+    return null;
 }
 
 const verifyJWT = (token) => {
@@ -34,8 +43,10 @@ const verifyJWT = (token) => {
 const checkUserJWT = (req, res, next) => {
     if (nonSecurePath.includes(req.path)) return next();
     let cookies = req.cookies;
-    if (cookies && cookies.jwt) {
-        let token = cookies.jwt;
+    let tokenFromHeader = extractToken(req);
+
+    if ((cookies && cookies.jwt) || tokenFromHeader) {
+        let token = cookies && cookies.jwt ? cookies.jwt : tokenFromHeader;
         let decoded = verifyJWT(token);
         if (decoded) {
             req.user = decoded;
