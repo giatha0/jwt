@@ -25,31 +25,24 @@ const showRoleFunc = async () => {
 const showRoleFuncWithPaginate = async (page, limit) => {
     try {
         let offset = (page - 1) * limit;
+
         const { count, rows } = await db.Role.findAndCountAll({
             offset: offset,
             limit: limit,
             attributes: ['id', 'url', 'description'],
-            include: [{
-                model: db.Group,
-                attributes: ['name'],
-                through: {
-                    attributes: [],
-
-                }
-            }],
             order: [
                 ['id', 'DESC'],
             ],
             raw: true,
         });
-        // console.log('te', { count, rows })
+
         let data = {
             totalRows: count,
             totalPages: Math.ceil(count / limit),
             roles: rows,
         }
 
-        console.log(data);
+        // console.log(data.roles);
         return {
             EM: "Get all role success",
             EC: "0",
