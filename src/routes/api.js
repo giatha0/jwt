@@ -2,6 +2,7 @@ import express from 'express';
 import apiController from '../controller/apiController';
 import userController from '../controller/userController';
 import groupController from '../controller/groupController';
+import roleController from '../controller/roleController';
 import { checkUserJWT, checkUserPermission } from '../middleware/JWTAction'
 
 const router = express.Router();
@@ -20,12 +21,19 @@ const initApiRoutes = (app) => {
 
 
     // GET-r POST-c PUT-u DELETE-d
+
+    // user routes
     router.get("/user/show", userController.showFunc);
     router.post("/user/create", checkUserPermission, userController.createFunc);
     router.put("/user/update", userController.updateFunc);
     router.delete("/user/delete", userController.deleteFunc);
 
+    // role routes
+    router.get('/role/show', roleController.showRoleFunc);
+    router.post('/role/create', roleController.createRoleFunc);
+
     // router.get("/user/show/page=?&limit=?", userController.showFunc);
+    // group routes
     router.get("/group/show", groupController.showFunc);
 
 
