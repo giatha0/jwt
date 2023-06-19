@@ -86,7 +86,7 @@ const checkUserPermission = (req, res, next) => {
         }
 
         // console.log(roles);
-        let canAccess = roles.some(item => item.url === currentUrl)
+        let canAccess = roles.some(item => item.url === currentUrl || currentUrl.includes(item.url));
 
         // console.log(canAccess);
         if (canAccess) {
