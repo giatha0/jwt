@@ -34,6 +34,7 @@ const initApiRoutes = (app) => {
     router.post('/role/create', roleController.createRoleFunc);
     router.delete('/role/delete', roleController.deleteRoleFunc);
     router.get('/role/by-group/:groupId', roleController.getRoleByGroupFunc);
+    router.post('/role/assign-to-group', roleController.assignRoleToGroupFunc);
 
     // router.get("/user/show/page=?&limit=?", userController.showFunc);
     // group routes
