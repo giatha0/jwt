@@ -2,7 +2,7 @@ import userApiService from '../service/userApiService.js'
 
 const showFunc = async (req, res) => {
     try {
-        console.log('Cookies: ', req.cookies)
+
 
         if (req.query.page && req.query.limit) {
             let page = req.query.page;
@@ -15,7 +15,7 @@ const showFunc = async (req, res) => {
                 DT: data.DT,
             })
 
-            console.log("page", page, "limit", limit);
+
         } else {
             let data = await userApiService.getAllUser();
 

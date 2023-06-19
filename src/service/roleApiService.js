@@ -1,5 +1,69 @@
 import db from "../models/models/index.js";
 
+const showRoleFunc = async () => {
+    try {
+        let data = await db.Role.findAll({
+            order: [
+                ['id', 'DESC'],
+            ],
+        });
+        return {
+            EM: "Role fetched successfully",
+            EC: "0",
+            DT: data,
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            EM: "Something went wrong",
+            EC: "-1",
+            DT: [],
+        }
+    }
+}
+
+const showRoleFuncWithPaginate = async (page, limit) => {
+    try {
+        let offset = (page - 1) * limit;
+        const { count, rows } = await db.Role.findAndCountAll({
+            offset: offset,
+            limit: limit,
+            attributes: ['id', 'url', 'description'],
+            include: [{
+                model: db.Group,
+                attributes: ['name'],
+                through: {
+                    attributes: [],
+
+                }
+            }],
+            order: [
+                ['id', 'DESC'],
+            ],
+            raw: true,
+        });
+        // console.log('te', { count, rows })
+        let data = {
+            totalRows: count,
+            totalPages: Math.ceil(count / limit),
+            roles: rows,
+        }
+
+        console.log(data);
+        return {
+            EM: "Get all role success",
+            EC: "0",
+            DT: data,
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            EM: "Something went wrong",
+            EC: "-1",
+            DT: [],
+        }
+    }
+}
 
 const createNewRole = async (roles) => {
     try {
@@ -34,8 +98,62 @@ const createNewRole = async (roles) => {
     }
 }
 
+const deleteRole = async (id) => {
+    try {
+        let data = await db.Role.destroy({
+            where: { id: id }
+        })
+        return {
+            EM: "Role deleted successfully",
+            EC: "0",
+            DT: [],
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            EM: "Something went wrong",
+            EC: "-1",
+            DT: [],
+        }
+    }
+}
 
+const getRoleByGroup = async (id) => {
+    try {
+        if (!id) {
+            return {
+                EM: "Group id is required",
+                EC: "-1",
+                DT: [],
+            }
+        }
+        let roles = await db.Group.findOne({
+            where: { id: id },
+            attributes: ['id', 'name', 'description'],
+            include: [{
+                model: db.Role,
+                attributes: ['id', 'url', 'description'],
+                through: {
+                    attributes: [],
+                }
+            }]
+        })
+
+        return {
+            EM: "Get role by group success",
+            EC: "0",
+            DT: roles,
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            EM: "Something went wrong",
+            EC: "-1",
+            DT: [],
+        }
+    }
+}
 
 module.exports = {
-    createNewRole
+    createNewRole, showRoleFunc, deleteRole, showRoleFuncWithPaginate, getRoleByGroup
 }

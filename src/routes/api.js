@@ -29,12 +29,16 @@ const initApiRoutes = (app) => {
     router.delete("/user/delete", userController.deleteFunc);
 
     // role routes
+    // router.get("/role/show/page=?&limit=?", userController.showFunc);
     router.get('/role/show', roleController.showRoleFunc);
     router.post('/role/create', roleController.createRoleFunc);
+    router.delete('/role/delete', roleController.deleteRoleFunc);
+    router.get('/role/by-group/:groupId', roleController.getRoleByGroupFunc);
 
     // router.get("/user/show/page=?&limit=?", userController.showFunc);
     // group routes
     router.get("/group/show", groupController.showFunc);
+
 
 
     return app.use('/api/v1', router);

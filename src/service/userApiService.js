@@ -50,6 +50,7 @@ const getUserWithPagination = async (page, limit) => {
             order: [
                 ['id', 'DESC'],
             ],
+            raw: true,
         });
         let data = {
             totalRows: count,
